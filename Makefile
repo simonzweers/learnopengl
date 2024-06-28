@@ -2,6 +2,7 @@ CC=/usr/bin/gcc
 CXX=/usr/bin/g++
 
 CFLAGS += -Werror -Wall -g
+CFLAGS += -Iinclude
 LFLAGS=
 
 SRC=$(wildcard src/*.cpp)
