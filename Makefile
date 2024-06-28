@@ -3,9 +3,9 @@ CXX=/usr/bin/g++
 
 CFLAGS += -Werror -Wall -g
 CFLAGS += -Iinclude
-LFLAGS=
+LFLAGS=-lglfw
 
-SRC=$(wildcard src/*.cpp)
+SRC=$(wildcard src/*.cpp) $(wildcard src/*.c)
 BLD=build
 OBJ=$(SRC:%.cpp=${BLD}/%.o)
 EXE=learnopengl
@@ -13,7 +13,7 @@ EXE=learnopengl
 all: ${EXE}
 
 ${EXE}: ${OBJ}
-	${CXX} -o $@ $^ ${CFLAGS}
+	${CXX} -o $@ $^ ${CFLAGS} ${LFLAGS}
 
 ${BLD}/%.o: %.cpp
 	mkdir -p ${dir $@}
