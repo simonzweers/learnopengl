@@ -19,5 +19,8 @@ ${BLD}/%.o: %.cpp
 	mkdir -p ${dir $@}
 	${CXX} -o $@ $^ -c ${CFLAGS}
 
+cdb: clean
+	bear -- make
+
 clean: 
 	rm -rf ${EXE} *.o ${BLD}
