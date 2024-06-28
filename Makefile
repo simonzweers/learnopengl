@@ -4,17 +4,19 @@ CXX=/usr/bin/g++
 CFLAGS += -Werror -Wall -g
 LFLAGS=
 
-SRC=$(wildcard *.c)
-OBJ=$(SRC:.c=.o)
+SRC=$(wildcard src/*.cpp)
+BLD=build
+OBJ=$(SRC:%.cpp=${BLD}/%.o)
 EXE=learnopengl
 
 all: ${EXE}
 
-${EXE}: main.o
+${EXE}: ${OBJ}
 	${CXX} -o $@ $^ ${CFLAGS}
 
-%.o: %.c
+${BLD}/%.o: %.cpp
+	mkdir -p ${dir $@}
 	${CXX} -o $@ $^ -c ${CFLAGS}
 
 clean: 
-	rm -rf ${EXE} *.o
+	rm -rf ${EXE} *.o ${BLD}
