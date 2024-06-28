@@ -6,7 +6,7 @@ LFLAGS=
 
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
-EXE=learopengl
+EXE=learnopengl
 
 all: ${EXE}
 
