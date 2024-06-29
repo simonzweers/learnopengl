@@ -8,7 +8,6 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 }
 
 int main() {
-    std::printf("Hello World!");
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
