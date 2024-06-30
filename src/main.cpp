@@ -67,13 +67,19 @@ int main() {
     glBindVertexArray(0);
 
     // VERTEX SHADER
-    const char *vertexShaderSource =
-        "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;\n"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-        "}\0";
+    FILE *fpVertexShader = fopen("shaders/vertex.glsl", "r");
+    if (fpVertexShader == NULL) {
+        perror("Could not open vertex.glsl: ");
+        return EXIT_FAILURE;
+    } else {
+        std::printf("VERTEX SHADER: File openend\n");
+    };
+    fseek(fpVertexShader, 0, SEEK_END);
+    long fpVertexShaderLen = ftell(fpVertexShader);
+    rewind(fpVertexShader);
+    char *vertexShaderSource = (char *)malloc(fpVertexShaderLen);
+    fread(vertexShaderSource, 1, fpVertexShaderLen, fpVertexShader);
+    printf("Program:\n%s\n", vertexShaderSource);
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
@@ -118,6 +124,8 @@ int main() {
     }
 
     // Delete no longer needed shaders
+    fclose(fpVertexShader);
+    free(vertexShaderSource);
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
     glUseProgram(shaderProgram);
