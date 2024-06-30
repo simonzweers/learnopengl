@@ -120,6 +120,7 @@ int main() {
     // Delete no longer needed shaders
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+    glUseProgram(shaderProgram);
 
     while (!glfwWindowShouldClose(window)) {
         // Input handling
@@ -127,7 +128,6 @@ int main() {
 
         // Rendering
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         glClear(GL_COLOR_BUFFER_BIT);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
