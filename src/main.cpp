@@ -35,8 +35,14 @@ int main() {
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    float vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f,
-                        0.0f,  0.0f,  0.5f, 0.0f};
+    float vertices[][3] = {// Triangle 1
+                           {-0.5f, -0.5f, 0.0f},
+                           {0.5f, -0.5f, 0.0f},
+                           {-0.5f, 0.5f, 0.0f},
+                           // Triangle 2
+                           {0.5f, 0.5f, 0.0f},
+                           {0.5f, -0.5f, 0.0f},
+                           {-0.5f, 0.5f, 0.0f}};
 
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -98,10 +104,6 @@ int main() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
-                          (void *)0);
-    glEnableVertexAttribArray(0);
-
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -120,7 +122,7 @@ int main() {
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         glClear(GL_COLOR_BUFFER_BIT);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
 
         // Check abd call events and swap the buffers
         glfwSwapBuffers(window);
