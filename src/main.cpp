@@ -36,16 +36,24 @@ int main() {
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    float vertices[][3] = {{-0.5f, -0.5f, 0.5f}, // bottom left,
-                           {0.5f, -0.5f, 0.0f},  // bottom right,
-                           {-0.5f, 0.5f, 0.5f},  // top left
-                           {0.5f, 0.5f, 0.0f}};  // rop right
-    unsigned int indecies[][3] = {
-        // First triangle
-        {0, 1, 2},
-        // Second triangle
-        {1, 2, 3},
+    float vertices[][3] = {
+        {-0.5f, -0.5f, 0.5f}, // bottom left,
+        {1.0f, 0.0f, 0.0f},   // bottom left,
+        {0.5f, -0.5f, 0.0f},  // bottom right,
+        {0.0f, 1.0f, 0.0f},   // bottom right,
+        // {-0.5f, 0.5f, 0.5f},  // top left
+        {0.0f, 0.5f, 0.0f}, // rop right
+        {0.0f, 0.0f, 1.0f}, // rop right
     };
+
+    /*
+       unsigned int indecies[][3] = {
+    // First triangle
+    {0, 1, 2},
+    // Second triangle
+    {1, 2, 3},
+    };
+    */
 
     unsigned int VBO;
     glGenBuffers(1, &VBO);
@@ -56,15 +64,18 @@ int main() {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indecies), indecies,
-                 GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+    // Position Attribute
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
                           (void *)0);
     glEnableVertexAttribArray(0);
+
+    // Color attiribute
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+                          (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
     glBindVertexArray(0);
 
     int nrAttributes;
@@ -84,6 +95,7 @@ int main() {
     rewind(fpVertexShader);
     char *vertexShaderSource = (char *)malloc(fpVertexShaderLen);
     fread(vertexShaderSource, 1, fpVertexShaderLen, fpVertexShader);
+    vertexShaderSource[fpVertexShaderLen] = '\0';
     printf("Program:\n%s\n", vertexShaderSource);
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -110,6 +122,7 @@ int main() {
     rewind(fpFragmentShader);
     char *fragmentShaderSource = (char *)malloc(fpFragmentShaderLen);
     fread(fragmentShaderSource, 1, fpFragmentShaderLen, fpFragmentShader);
+    fragmentShaderSource[fpFragmentShaderLen] = '\0';
     printf("Program:\n%s\n", fragmentShaderSource);
     unsigned int fragmentShader;
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -162,7 +175,7 @@ int main() {
 
         // Render bs
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // Check abd call events and swap the buffers
         glfwSwapBuffers(window);
