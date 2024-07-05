@@ -66,6 +66,10 @@ int main() {
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
 
+    int nrAttributes;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
+    std::printf("Max vertex attributes: %d\n", nrAttributes);
+
     // VERTEX SHADER
     FILE *fpVertexShader = fopen("shaders/vertex.glsl", "r");
     if (fpVertexShader == NULL) {
@@ -93,13 +97,19 @@ int main() {
     }
 
     // FRAGMENT SHADER
-    const char *fragmentShaderSource =
-        "#version 330 core\n"
-        "out vec4 FragColor;\n"
-        "void main()\n"
-        "{\n"
-        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "}\0";
+    FILE *fpFragmentShader = fopen("shaders/fragment.glsl", "r");
+    if (fpFragmentShader == NULL) {
+        perror("Could not open fragment.glsl: ");
+        return EXIT_FAILURE;
+    } else {
+        std::printf("FRAGMENT SHADER: File openend\n");
+    };
+    fseek(fpFragmentShader, 0, SEEK_END);
+    long fpFragmentShaderLen = ftell(fpFragmentShader);
+    rewind(fpFragmentShader);
+    char *fragmentShaderSource = (char *)malloc(fpFragmentShaderLen);
+    fread(fragmentShaderSource, 1, fpFragmentShaderLen, fpFragmentShader);
+    printf("Program:\n%s\n", fragmentShaderSource);
     unsigned int fragmentShader;
     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
