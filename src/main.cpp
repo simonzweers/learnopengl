@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
+#include <math.h>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
     glViewport(0, 0, width, height);
@@ -146,8 +147,21 @@ int main() {
 
         // Rendering
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glBindVertexArray(VAO);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // Set color
+        float timeValue = glfwGetTime();
+        float greenValue = sin(timeValue) / 2.0f + 0.5f;
+        float blueValue =
+            sin(timeValue + (0.33333f * 2.0f * 3.1415f)) / 2.0f + 0.5f;
+        float redValue =
+            sin(timeValue + (0.666666 * 2.0f * 3.1415f)) / 2.0f + 0.5f;
+        int vertexColorLocation =
+            glGetUniformLocation(shaderProgram, "ourColor");
+        glUniform4f(vertexColorLocation, redValue, greenValue, blueValue, 1.0f);
+
+        // Render bs
+        glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // Check abd call events and swap the buffers
