@@ -7,7 +7,7 @@ LFLAGS=-lglfw
 
 SRC=$(wildcard src/*.cpp) $(wildcard src/*.c)
 BLD=build
-OBJ=$(SRC:%.cpp=${BLD}/%.o)
+OBJ=$(SRC:%=${BLD}/%.o)
 EXE=learnopengl
 
 all: ${EXE}
@@ -15,9 +15,13 @@ all: ${EXE}
 ${EXE}: ${OBJ}
 	${CXX} -o $@ $^ ${CFLAGS} ${LFLAGS}
 
-${BLD}/%.o: %.cpp
+${BLD}/%.cpp.o: %.cpp
 	mkdir -p ${dir $@}
 	${CXX} -o $@ $^ -c ${CFLAGS}
+
+${BLD}/%.c.o: %.c
+	mkdir -p ${dir $@}
+	${CC} -o $@ $^ -c ${CFLAGS}
 
 cdb: clean
 	bear -- make
