@@ -2,8 +2,10 @@ CC=/usr/bin/gcc
 CXX=/usr/bin/g++
 
 CFLAGS += -Werror -Wall -g
-CFLAGS += -Iinclude
-LFLAGS=-lglfw
+CFLAGS += -Iinclude 
+CFLAGS += -Ilib/glad/include
+
+LFLAGS=-lglfw lib/glad/src/glad.o
 
 SRC=$(wildcard src/*.cpp) $(wildcard src/*.c)
 BLD=build
@@ -29,4 +31,10 @@ cdb: clean
 	bear -- make
 
 clean: 
-	rm -rf ${EXE} *.o ${BLD}
+	rm -rf ${EXE} *.o ${BLD} lib/
+
+libs: lib/glad
+
+lib/glad:
+	glad --profile core --out-path $@ --generator c
+	$(CC) $@/src/glad.c -o $@/src/glad.o -c $(CFLAGS)
