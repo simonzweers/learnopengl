@@ -10,6 +10,8 @@ BLD=build
 OBJ=$(SRC:%=${BLD}/%.o)
 EXE=learnopengl
 
+.PHONY: clean libs cdb all
+
 all: ${EXE}
 
 ${EXE}: ${OBJ}
