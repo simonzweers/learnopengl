@@ -1,7 +1,7 @@
 CC=/usr/bin/gcc
 CXX=/usr/bin/g++
 
-CFLAGS += -Werror -Wall -g
+CFLAGS += -Wall -g
 CFLAGS += -Iinclude 
 CFLAGS += -Ilib/stb/include 
 CFLAGS += -Ilib/glad/include
