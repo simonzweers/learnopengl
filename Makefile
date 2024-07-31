@@ -27,7 +27,7 @@ ${BLD}/%.c.o: %.c
 	mkdir -p ${dir $@}
 	${CC} -o $@ $^ -c ${CFLAGS}
 
-cdb: clean
+cdb: clean libs
 	bear -- make
 
 clean: 
