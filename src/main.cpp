@@ -92,7 +92,6 @@ int main() {
     std::printf("Max vertex attributes: %d\n", nrAttributes);
 
     Shader shader = Shader("./shaders/vertex.glsl", "./shaders/fragment.glsl");
-    shader.use();
 
     while (!glfwWindowShouldClose(window)) {
         // Input handling
@@ -102,6 +101,7 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        shader.use();
         // Set color
         float timeValue = glfwGetTime();
         float greenValue = sin(timeValue) / 2.0f + 0.5f;
@@ -111,7 +111,7 @@ int main() {
             sin(timeValue + (0.666666 * 2.0f * 3.1415f)) / 2.0f + 0.5f;
         int vertexColorLocation = glGetUniformLocation(shader.ID, "ourColor");
         glUniform4f(vertexColorLocation, redValue, greenValue, blueValue, 1.0f);
-
+        shader.setFloat("xOffset", greenValue);
         // Render bs
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
