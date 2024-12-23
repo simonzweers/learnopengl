@@ -56,7 +56,8 @@ int main() {
     float texCoords[] = {
         0.0f, 0.0f, // Lower left
         1.0f, 0.0f, // Lower right
-        0.5f, 1.0f, // Top center
+        0.0f, 1.0f, // Top center
+        1.0f, 1.0f, // Top center
     };
 
     float borderColor[] = {1.0f, 1.0f, 0.0f, 1.0f};
@@ -98,10 +99,15 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    unsigned int VBO_c;
-    glGenBuffers(1, &VBO_c);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_c);
+    unsigned int VBO_col;
+    glGenBuffers(1, &VBO_col);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_col);
     glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+
+    unsigned int VBO_texcoord;
+    glGenBuffers(1, &VBO_texcoord);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_texcoord);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
 
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
@@ -114,10 +120,15 @@ int main() {
     glEnableVertexAttribArray(0);
 
     // Color attiribute
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_c);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_col);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
                           (void *)(0));
     glEnableVertexAttribArray(1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_texcoord);
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 2 * sizeof(float),
+                          (void *)0);
+    glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
 
