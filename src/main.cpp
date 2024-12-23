@@ -41,35 +41,38 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     float vertices[][3] = {
-        {-0.5f, -0.5f, 0.5f}, // bottom left,
+        {-0.5f, -0.5f, 0.0f}, // bottom left,
         {0.5f, -0.5f, 0.0f},  // bottom right,
-        // {-0.5f, 0.5f, 0.5f},  // top left
-        {0.0f, 0.5f, 0.0f}, // rop right
+        {-0.5f, 0.5f, 0.0f},  // top left
+        {0.5f, 0.5f, 0.0f},   // top right
     };
 
     float colors[][3] = {
         {1.0f, 0.0f, 0.0f}, // bottom left,
         {0.0f, 1.0f, 0.0f}, // bottom right,
-        {0.0f, 0.0f, 1.0f}, // rop right
+        {0.0f, 0.0f, 1.0f}, // top left
+        {1.0f, 0.0f, 1.0f}, // top right
     };
 
     float texCoords[] = {
         0.0f, 0.0f, // Lower left
         1.0f, 0.0f, // Lower right
-        0.0f, 1.0f, // Top center
-        1.0f, 1.0f, // Top center
+        0.0f, 1.0f, // Top left
+        1.0f, 1.0f, // Top right
     };
 
     float borderColor[] = {1.0f, 1.0f, 0.0f, 1.0f};
 
-    /*
-       unsigned int indecies[][3] = {
-    // First triangle
-    {0, 1, 2},
-    // Second triangle
-    {1, 2, 3},
+    unsigned int indecies[] = {
+        // First triangle
+        0,
+        1,
+        2,
+        // Second triangle
+        1,
+        2,
+        3,
     };
-    */
 
     unsigned int texture;
     glGenTextures(1, &texture);
@@ -94,24 +97,27 @@ int main() {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
                  GL_UNSIGNED_BYTE, image_data);
 
-    unsigned int VBO;
+    unsigned int VBO, VBO_col, VBO_texcoord, VAO, EBO;
+    glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &VBO_col);
+    glGenBuffers(1, &VBO_texcoord);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    unsigned int VBO_col;
-    glGenBuffers(1, &VBO_col);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indecies), indecies,
+                 GL_STATIC_DRAW);
+
     glBindBuffer(GL_ARRAY_BUFFER, VBO_col);
     glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
 
-    unsigned int VBO_texcoord;
-    glGenBuffers(1, &VBO_texcoord);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_texcoord);
     glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
-
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
 
     // Position Attribute
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -126,7 +132,7 @@ int main() {
     glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO_texcoord);
-    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 2 * sizeof(float),
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float),
                           (void *)0);
     glEnableVertexAttribArray(2);
 
@@ -146,15 +152,10 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        glBindTexture(GL_TEXTURE_2D, texture);
         shader.use();
-        // shader.setFloat("xOffset", 0.1f);
-        //  Render bs
-        //
-        float timeValue = glfwGetTime();
-        float greenValue = sin(timeValue) / 2.0f + 0.5f;
-
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // Check abd call events and swap the buffers
         glfwSwapBuffers(window);
