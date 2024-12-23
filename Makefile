@@ -37,10 +37,12 @@ clean:
 libs: lib/glad lib/stb
 
 lib/glad:
+	@echo "RESOLVING DEPENDENCY: glad"
 	glad --profile core --out-path $@ --generator c
 	$(CC) $@/src/glad.c -o $@/src/glad.o -c $(CFLAGS)
 
 lib/stb:
+	@echo "RESOLVING DEPENDENCY: stb"
 	@mkdir -p $@
 	@mkdir -p $@/include
 	curl -s https://raw.githubusercontent.com/nothings/stb/master/stb_image.h -o $@/include/stb_image.h
