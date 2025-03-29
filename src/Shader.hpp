@@ -2,7 +2,7 @@
 #ifndef _SHADER_HPP_
 #define _SHADER_HPP_
 
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <string>
 
 class Shader {
