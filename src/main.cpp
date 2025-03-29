@@ -76,7 +76,6 @@ int main() {
 
     unsigned int texture1, texture2;
     glGenTextures(1, &texture1);
-    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture1);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -96,7 +95,6 @@ int main() {
     stbi_image_free(image_data);
 
     glGenTextures(1, &texture2);
-    glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture2);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -120,11 +118,6 @@ int main() {
     glGenBuffers(1, &VBO_col);
     glGenBuffers(1, &VBO_texcoord);
     glGenBuffers(1, &EBO);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture1);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, texture2);
 
     glBindVertexArray(VAO);
 
@@ -166,8 +159,12 @@ int main() {
 
     Shader shader = Shader("./shaders/vertex.glsl", "./shaders/fragment.glsl");
     shader.use();
-    shader.setInt("texture1", 0); // or with shader class
-    shader.setInt("texture2", 1); // or with shader class
+    // shader.setInt("texture1", 0); // or with shader class
+    // shader.setInt("texture2", 1); // or with shader class
+    glUniform1i(glGetUniformLocation(shader.ID, "texture1"),
+                0); // set it manually
+    glUniform1i(glGetUniformLocation(shader.ID, "texture2"),
+                1); // set it manually
     while (!glfwWindowShouldClose(window)) {
         // Input handling
         processInput(window);
@@ -176,7 +173,11 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, texture2);
+
         shader.use();
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
