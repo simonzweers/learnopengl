@@ -1,7 +1,7 @@
 list(
 		APPEND sources
 		"Shader.cpp"
-		"glad/src/gl.c"
+		"glad.c"
 )
 
 add_executable(${CMAKE_PROJECT_NAME} main.cpp ${sources})
