@@ -38,8 +38,8 @@ libs: lib/glad lib/stb
 
 lib/glad:
 	@echo "RESOLVING DEPENDENCY: glad"
-	glad --profile core --out-path $@ --generator c
-	$(CC) $@/src/glad.c -o $@/src/glad.o -c $(CFLAGS)
+	glad --api gl:core=3.3 --out-path=$@ c 
+	$(CC) $@/src/gl.c -o $@/src/glad.o -c $(CFLAGS)
 
 lib/stb:
 	@echo "RESOLVING DEPENDENCY: stb"
