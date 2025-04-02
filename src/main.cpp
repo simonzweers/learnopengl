@@ -1,10 +1,18 @@
 #include "Shader.hpp"
+#include "glm/ext/matrix_float4x4.hpp"
+#include "glm/ext/matrix_transform.hpp"
+#include "glm/ext/vector_float3.hpp"
+#include "glm/ext/vector_float4.hpp"
 #include <GLFW/glfw3.h>
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <glad/glad.h>
 #include <math.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -167,6 +175,13 @@ int main() {
                 0); // set it manually
     glUniform1i(glGetUniformLocation(shader.ID, "texture2"),
                 1); // set it manually
+
+    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
+    vec = trans * vec;
+    std::printf("coords: %f %f %f\n", vec.x, vec.y, vec.z);
+
     while (!glfwWindowShouldClose(window)) {
         // Input handling
         processInput(window);

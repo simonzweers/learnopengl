@@ -26,6 +26,7 @@ include_directories(
 	# lib/glad/include
 	include/
 	external/stb
+	external/glm
 )
 
 add_subdirectory(src)
