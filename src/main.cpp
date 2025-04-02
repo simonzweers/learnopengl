@@ -82,7 +82,49 @@ int main() {
         2,
         3,
     };
+    float verticesCube[] = {
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //
+        0.5f,  -0.5f, -0.5f, 1.0f, 0.0f, //
+        0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
+        0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
+        -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f, //
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //
 
+        -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
+        0.5f,  -0.5f, 0.5f,  1.0f, 0.0f, //
+        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, //
+        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, //
+        -0.5f, 0.5f,  0.5f,  0.0f, 1.0f, //
+        -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
+
+        -0.5f, 0.5f,  0.5f,  1.0f, 0.0f, //
+        -0.5f, 0.5f,  -0.5f, 1.0f, 1.0f, //
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
+        -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
+        -0.5f, 0.5f,  0.5f,  1.0f, 0.0f, //
+
+        0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
+        0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
+        0.5f,  -0.5f, -0.5f, 0.0f, 1.0f, //
+        0.5f,  -0.5f, -0.5f, 0.0f, 1.0f, //
+        0.5f,  -0.5f, 0.5f,  0.0f, 0.0f, //
+        0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
+
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
+        0.5f,  -0.5f, -0.5f, 1.0f, 1.0f, //
+        0.5f,  -0.5f, 0.5f,  1.0f, 0.0f, //
+        0.5f,  -0.5f, 0.5f,  1.0f, 0.0f, //
+        -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
+        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
+
+        -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f, //
+        0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
+        0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
+        0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
+        -0.5f, 0.5f,  0.5f,  0.0f, 0.0f, //
+        -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f  //
+    };
     unsigned int texture1, texture2;
     glGenTextures(1, &texture1);
     glBindTexture(GL_TEXTURE_2D, texture1);
@@ -123,44 +165,26 @@ int main() {
     }
     stbi_image_free(image_data);
 
-    unsigned int VBO, VBO_col, VBO_texcoord, VAO, EBO;
+    unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    glGenBuffers(1, &VBO_col);
-    glGenBuffers(1, &VBO_texcoord);
-    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indecies), indecies,
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesCube), verticesCube,
                  GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_col);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_texcoord);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
 
     // Position Attribute
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
                           (void *)0);
     glEnableVertexAttribArray(0);
 
-    // Color attiribute
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_col);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
-                          (void *)(0));
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+                          (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_texcoord);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float),
-                          (void *)0);
-    glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
 
@@ -190,6 +214,15 @@ int main() {
     glm::mat4 projection = glm::perspective(
         glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
+    int modelLoc = glGetUniformLocation(shader.ID, "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
+    int viewLoc = glGetUniformLocation(shader.ID, "view");
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+    int projectionLoc = glGetUniformLocation(shader.ID, "projection");
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
     while (!glfwWindowShouldClose(window)) {
         // Input handling
         processInput(window);
@@ -204,7 +237,8 @@ int main() {
             glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
         float scale = 0.5;
         trans = glm::scale(trans, glm::vec3(scale, scale, scale));
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+        // glUniformMatrix4fv(, 1, GL_FALSE, );
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
@@ -213,7 +247,8 @@ int main() {
 
         shader.use();
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
         // Check abd call events and swap the buffers
         glfwSwapBuffers(window);
