@@ -3,6 +3,7 @@
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/ext/vector_float3.hpp"
 #include "glm/ext/vector_float4.hpp"
+#include "glm/trigonometric.hpp"
 #include <GLFW/glfw3.h>
 #include <cstddef>
 #include <cstdio>
@@ -176,11 +177,26 @@ int main() {
     glUniform1i(glGetUniformLocation(shader.ID, "texture2"),
                 1); // set it manually
 
-    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
-    vec = trans * vec;
-    std::printf("coords: %f %f %f\n", vec.x, vec.y, vec.z);
+    // glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
+    // glm::mat4 trans = glm::mat4(1.0f);
+    // trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
+    // vec = trans * vec;
+
+    unsigned int transformLoc = glGetUniformLocation(shader.ID, "transform");
+    // std::printf("coords: %f %f %f\n", vec.x, vec.y, vec.z);
+
+    // Create model matrix (Object scaling, rotations and translations)
+    glm::mat4 model = glm::mat4(1.0f);
+    model =
+        glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+    // Create View matrix
+    glm::mat4 view = glm::mat4(1.0f);
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+    // Create projection matrix
+    glm::mat4 projection = glm::perspective(
+        glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
     while (!glfwWindowShouldClose(window)) {
         // Input handling
@@ -189,6 +205,14 @@ int main() {
         // Rendering
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::translate(trans, glm::vec3(0.5, -0.5, 0.0f));
+        trans =
+            glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
+        float scale = 0.5;
+        trans = glm::scale(trans, glm::vec3(scale, scale, scale));
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
