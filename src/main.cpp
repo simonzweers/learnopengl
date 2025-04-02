@@ -177,14 +177,6 @@ int main() {
     glUniform1i(glGetUniformLocation(shader.ID, "texture2"),
                 1); // set it manually
 
-    // glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
-    // glm::mat4 trans = glm::mat4(1.0f);
-    // trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
-    // vec = trans * vec;
-
-    unsigned int transformLoc = glGetUniformLocation(shader.ID, "transform");
-    // std::printf("coords: %f %f %f\n", vec.x, vec.y, vec.z);
-
     // Create model matrix (Object scaling, rotations and translations)
     glm::mat4 model = glm::mat4(1.0f);
     model =
