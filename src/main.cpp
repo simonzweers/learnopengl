@@ -215,14 +215,22 @@ int main() {
     glm::mat4 projection = glm::perspective(
         glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
-    int modelLoc = glGetUniformLocation(shader.ID, "model");
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    // Camera Stuff
+    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+    glm::vec3 cameraTarget = glm::vec3(0.0, 0.0f, 0.0f);
+    glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+    glm::vec3 globalUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 cameraRight =
+        glm::normalize(glm::cross(globalUp, cameraDirection));
+    glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+    // glm::mat4 view;
+    view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), //
+                       glm::vec3(0.0f, 0.0f, 0.0f), //
+                       glm::vec3(0.0f, 1.0f, 0.0f));
 
-    int viewLoc = glGetUniformLocation(shader.ID, "view");
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-
-    int projectionLoc = glGetUniformLocation(shader.ID, "projection");
-    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    shader.setMat4("model", model);
+    // shader.setMat4("view", view);
+    shader.setMat4("projection", projection);
 
     glm::vec3 cubePositions[] = {
         glm::vec3(0.0f, 0.0f, 0.0f),    glm::vec3(2.0f, 5.0f, -15.0f),
@@ -239,12 +247,13 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::translate(trans, glm::vec3(0.5, -0.5, 0.0f));
-        trans =
-            glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
-        float scale = 0.5;
-        trans = glm::scale(trans, glm::vec3(scale, scale, scale));
+        // glm::mat4 trans = glm::mat4(1.0f);
+        // trans = glm::translate(trans, glm::vec3(0.5, -0.5, 0.0f));
+        // trans =
+        //     glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0,
+        //     0.0, 1.0));
+        // float scale = 0.5;
+        // trans = glm::scale(trans, glm::vec3(scale, scale, scale));
 
         // glUniformMatrix4fv(, 1, GL_FALSE, );
 
@@ -253,6 +262,14 @@ int main() {
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture2);
 
+        const float radius = 10.0f;
+        float camX = sin(glfwGetTime() * 0.1f) * radius;
+        float camZ = cos(glfwGetTime() * 0.1f) * radius;
+        view = glm::lookAt(glm::vec3(camX, 0.0, camZ), //
+                           glm::vec3(0.0, 0.0, 0.0),   //
+                           glm::vec3(0.0, 1.0, 0.0));
+
+        shader.setMat4("view", view);
         shader.use();
         glBindVertexArray(VAO);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
