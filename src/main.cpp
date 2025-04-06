@@ -3,6 +3,7 @@
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/ext/vector_float3.hpp"
 #include "glm/ext/vector_float4.hpp"
+#include "glm/geometric.hpp"
 #include "glm/trigonometric.hpp"
 #include <GLFW/glfw3.h>
 #include <cstddef>
@@ -18,13 +19,30 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+const float cameraSpeed = 0.05f;
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0, 0.0, -1.0);
+glm::vec3 cameraUp = glm::vec3(0.0, 1.0, 0.0);
+glm::vec3 globalUp = glm::vec3(0.0, 1.0, 0.0);
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
 void processInput(GLFWwindow *window) {
+
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        cameraPos += cameraSpeed * cameraFront;
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        cameraPos -= cameraSpeed * cameraFront;
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        cameraPos -=
+            glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        cameraPos +=
+            glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 
 int main() {
@@ -215,19 +233,6 @@ int main() {
     glm::mat4 projection = glm::perspective(
         glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
-    // Camera Stuff
-    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-    glm::vec3 cameraTarget = glm::vec3(0.0, 0.0f, 0.0f);
-    glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
-    glm::vec3 globalUp = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 cameraRight =
-        glm::normalize(glm::cross(globalUp, cameraDirection));
-    glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
-    // glm::mat4 view;
-    view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), //
-                       glm::vec3(0.0f, 0.0f, 0.0f), //
-                       glm::vec3(0.0f, 1.0f, 0.0f));
-
     shader.setMat4("model", model);
     // shader.setMat4("view", view);
     shader.setMat4("projection", projection);
@@ -262,12 +267,12 @@ int main() {
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture2);
 
-        const float radius = 10.0f;
-        float camX = sin(glfwGetTime() * 0.1f) * radius;
-        float camZ = cos(glfwGetTime() * 0.1f) * radius;
-        view = glm::lookAt(glm::vec3(camX, 0.0, camZ), //
-                           glm::vec3(0.0, 0.0, 0.0),   //
-                           glm::vec3(0.0, 1.0, 0.0));
+        // const float radius = 10.0f;
+        // float camX = sin(glfwGetTime() * 0.1f) * radius;
+        // float camZ = cos(glfwGetTime() * 0.1f) * radius;
+        view = glm::lookAt(cameraPos,               //
+                           cameraPos + cameraFront, //
+                           globalUp);
 
         shader.setMat4("view", view);
         shader.use();
