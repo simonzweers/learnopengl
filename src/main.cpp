@@ -2,11 +2,11 @@
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/ext/vector_float3.hpp"
-#include "glm/ext/vector_float4.hpp"
 #include "glm/geometric.hpp"
 #include "glm/trigonometric.hpp"
 #include <GLFW/glfw3.h>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <glad/glad.h>
@@ -19,17 +19,62 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+uint32_t SCREEN_SIZE_X = 800;
+uint32_t SCREEN_SIZE_Y = 600;
+
 const float cameraSpeed = 0.5f;
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0, 0.0, -1.0);
 glm::vec3 cameraUp = glm::vec3(0.0, 1.0, 0.0);
 glm::vec3 globalUp = glm::vec3(0.0, 1.0, 0.0);
+glm::vec3 cameraDirection;
+
+float yaw = -90.0f;
+float pitch = 0;
+
+float fov = 45.0f;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+float lastX = (float)SCREEN_SIZE_X / 2, lastY = (float)SCREEN_SIZE_Y / 2;
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
-    glViewport(0, 0, width, height);
+    SCREEN_SIZE_X = width;
+    SCREEN_SIZE_Y = height;
+    glViewport(0, 0, SCREEN_SIZE_X, SCREEN_SIZE_Y);
+}
+
+void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
+    float xoffset = xpos - lastX;
+    float yoffset = -(ypos - lastY);
+    lastX = xpos;
+    lastY = ypos;
+
+    const float sens = 0.1f;
+    xoffset *= sens;
+    yoffset *= sens;
+
+    yaw += xoffset;
+    pitch += yoffset;
+
+    if (pitch > 89.0f)
+        pitch = 89.0f;
+    if (pitch < -89.0f)
+        pitch = -89.0f;
+
+    cameraDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    cameraDirection.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    cameraDirection.y = sin(glm::radians(pitch));
+    cameraFront = glm::normalize(cameraDirection);
+}
+
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+    fov -= (float)yoffset;
+    if (fov < 1.0f)
+        fov = 1.0f;
+    if (fov > 45.0f)
+        fov = 45.0f;
 }
 
 void processInput(GLFWwindow *window) {
@@ -54,7 +99,8 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(SCREEN_SIZE_X, SCREEN_SIZE_Y,
+                                          "LearnOpenGL", NULL, NULL);
     if (window == nullptr) {
         std::printf("Failed to create GLFW window\n");
         glfwTerminate();
@@ -68,8 +114,10 @@ int main() {
     }
 
     glEnable(GL_DEPTH_TEST);
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, SCREEN_SIZE_X, SCREEN_SIZE_Y);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouse_callback);
 
     float vertices[][3] = {
         {-0.5f, -0.5f, 0.0f}, // bottom left,
@@ -238,7 +286,6 @@ int main() {
 
     shader.setMat4("model", model);
     // shader.setMat4("view", view);
-    shader.setMat4("projection", projection);
 
     glm::vec3 cubePositions[] = {
         glm::vec3(0.0f, 0.0f, 0.0f),    glm::vec3(2.0f, 5.0f, -15.0f),
@@ -246,13 +293,6 @@ int main() {
         glm::vec3(2.4f, -0.4f, -3.5f),  glm::vec3(-1.7f, 3.0f, -7.5f),
         glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.5f, 2.0f, -2.5f),
         glm::vec3(1.5f, 0.2f, -1.5f),   glm::vec3(-1.3f, 1.0f, -1.5f)};
-
-    float yaw = -90.0f;
-    float pitch = 0;
-    glm::vec3 direction;
-    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    direction.y = sin(glm::radians(pitch));
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
