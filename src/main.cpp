@@ -1,4 +1,5 @@
 #include "Shader.hpp"
+#include "glm/ext/matrix_clip_space.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/ext/vector_float3.hpp"
@@ -118,6 +119,7 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetScrollCallback(window, scroll_callback);
 
     float vertices[][3] = {
         {-0.5f, -0.5f, 0.0f}, // bottom left,
@@ -328,7 +330,11 @@ int main() {
                            cameraPos + cameraFront, //
                            globalUp);
 
+        projection = glm::perspective(
+            glm::radians(fov), (float)SCREEN_SIZE_X / (float)SCREEN_SIZE_Y,
+            0.1f, 100.f);
         shader.setMat4("view", view);
+        shader.setMat4("projection", projection);
         shader.use();
         glBindVertexArray(VAO);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
