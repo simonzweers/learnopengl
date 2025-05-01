@@ -27,6 +27,12 @@ Camera::Camera(Shader &shader, const uint32_t width, const uint32_t height,
 
 Camera::~Camera() {}
 
+void Camera::pan(float yaw, float pitch) {
+    _cameraDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    _cameraDirection.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    _cameraDirection.y = sin(glm::radians(pitch));
+    _cameraFront = glm::normalize(_cameraDirection);
+}
 void Camera::update() {
     _view = glm::lookAt(_cameraPos, _cameraPos + _cameraFront, _globalUp);
     _projection = glm::perspective(glm::radians(_fov),

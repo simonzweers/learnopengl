@@ -1,3 +1,4 @@
+#include "Camera.hpp"
 #include "Shader.hpp"
 #include "glm/ext/matrix_clip_space.hpp"
 #include "glm/ext/matrix_float4x4.hpp"
@@ -47,6 +48,10 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 }
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
+    float lastX = (float)SCREEN_SIZE_X / 2, lastY = (float)SCREEN_SIZE_Y / 2;
+    float yaw = -90.0f;
+    float pitch = 0;
+
     float xoffset = xpos - lastX;
     float yoffset = -(ypos - lastY);
     lastX = xpos;
@@ -64,10 +69,10 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
     if (pitch < -89.0f)
         pitch = -89.0f;
 
-    cameraDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    cameraDirection.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    cameraDirection.y = sin(glm::radians(pitch));
-    cameraFront = glm::normalize(cameraDirection);
+    Camera *camera = static_cast<Camera *>(glfwGetWindowUserPointer(window));
+    if (camera != nullptr) {
+        camera->pan(yaw, pitch);
+    }
 }
 
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
@@ -273,21 +278,25 @@ int main() {
     glUniform1i(glGetUniformLocation(shader.ID, "texture2"),
                 1); // set it manually
 
-    // Create model matrix (Object scaling, rotations and translations)
-    glm::mat4 model = glm::mat4(1.0f);
-    model =
-        glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    Camera cam{shader, SCREEN_SIZE_X, SCREEN_SIZE_Y, fov};
+    glfwSetWindowUserPointer(window, &cam);
 
-    // Create View matrix
-    glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-    // Create projection matrix
-    glm::mat4 projection = glm::perspective(
-        glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
-
-    shader.setMat4("model", model);
-    // shader.setMat4("view", view);
+    // // Create model matrix (Object scaling, rotations and translations)
+    // glm::mat4 model = glm::mat4(1.0f);
+    // model =
+    //     glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f,
+    //     0.0f));
+    //
+    // // Create View matrix
+    // glm::mat4 view = glm::mat4(1.0f);
+    // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    //
+    // // Create projection matrix
+    // glm::mat4 projection = glm::perspective(
+    //     glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
+    //
+    // shader.setMat4("model", model);
+    // // shader.setMat4("view", view);
 
     glm::vec3 cubePositions[] = {
         glm::vec3(0.0f, 0.0f, 0.0f),    glm::vec3(2.0f, 5.0f, -15.0f),
@@ -323,18 +332,20 @@ int main() {
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture2);
 
-        // const float radius = 10.0f;
-        // float camX = sin(glfwGetTime() * 0.1f) * radius;
-        // float camZ = cos(glfwGetTime() * 0.1f) * radius;
-        view = glm::lookAt(cameraPos,               //
-                           cameraPos + cameraFront, //
-                           globalUp);
+        // // const float radius = 10.0f;
+        // // float camX = sin(glfwGetTime() * 0.1f) * radius;
+        // // float camZ = cos(glfwGetTime() * 0.1f) * radius;
+        // view = glm::lookAt(cameraPos,               //
+        //                    cameraPos + cameraFront, //
+        //                    globalUp);
+        //
+        // projection = glm::perspective(
+        //     glm::radians(fov), (float)SCREEN_SIZE_X / (float)SCREEN_SIZE_Y,
+        //     0.1f, 100.f);
+        // shader.setMat4("view", view);
+        // shader.setMat4("projection", projection);
 
-        projection = glm::perspective(
-            glm::radians(fov), (float)SCREEN_SIZE_X / (float)SCREEN_SIZE_Y,
-            0.1f, 100.f);
-        shader.setMat4("view", view);
-        shader.setMat4("projection", projection);
+        cam.update();
         shader.use();
         glBindVertexArray(VAO);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

@@ -1,6 +1,7 @@
 list(
 		APPEND sources
 		"Shader.cpp"
+		"Camera.cpp"
 		"glad.c"
 )
 

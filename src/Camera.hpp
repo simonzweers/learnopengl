@@ -16,7 +16,7 @@ public:
     ~Camera();
 
     void move();
-    void pan();
+    void pan(float yaw, float pitch);
 
     void update();
 
