@@ -48,7 +48,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 }
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
-    float lastX = (float)SCREEN_SIZE_X / 2, lastY = (float)SCREEN_SIZE_Y / 2;
+    float lastX = 0, lastY = 0;
     float yaw = -90.0f;
     float pitch = 0;
 
