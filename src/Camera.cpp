@@ -27,12 +27,34 @@ Camera::Camera(Shader &shader, const uint32_t width, const uint32_t height,
 
 Camera::~Camera() {}
 
+void Camera::move(Direction direction, float deltaTime) {
+
+    if (direction == FORWARD)
+        _cameraPos += _cameraSpeed * _cameraFront * deltaTime;
+    if (direction == BACKWARD)
+        _cameraPos -= _cameraSpeed * _cameraFront * deltaTime;
+    if (direction == LEFT)
+        _cameraPos -= glm::normalize(glm::cross(_cameraFront, _cameraUp)) *
+                      _cameraSpeed * deltaTime;
+    if (direction == RIGHT)
+        _cameraPos += glm::normalize(glm::cross(_cameraFront, _cameraUp)) *
+                      _cameraSpeed * deltaTime;
+}
 void Camera::pan(float yaw, float pitch) {
     _cameraDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     _cameraDirection.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     _cameraDirection.y = sin(glm::radians(pitch));
     _cameraFront = glm::normalize(_cameraDirection);
 }
+
+void Camera::zoom(double yoffset) {
+    _fov -= (float)yoffset;
+    if (_fov < 1.0f)
+        _fov = 1.0f;
+    if (_fov > 45.0f)
+        _fov = 45.0f;
+}
+
 void Camera::update() {
     _view = glm::lookAt(_cameraPos, _cameraPos + _cameraFront, _globalUp);
     _projection = glm::perspective(glm::radians(_fov),

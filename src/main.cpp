@@ -76,27 +76,23 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
 }
 
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
-    fov -= (float)yoffset;
-    if (fov < 1.0f)
-        fov = 1.0f;
-    if (fov > 45.0f)
-        fov = 45.0f;
+    Camera *camera = static_cast<Camera *>(glfwGetWindowUserPointer(window));
+    camera->zoom(yoffset);
 }
 
 void processInput(GLFWwindow *window) {
 
+    Camera *camera = static_cast<Camera *>(glfwGetWindowUserPointer(window));
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPos += cameraSpeed * cameraFront * deltaTime;
+        camera->move(Camera::FORWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * cameraFront * deltaTime;
+        camera->move(Camera::BACKWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) *
-                     cameraSpeed * deltaTime;
+        camera->move(Camera::LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) *
-                     cameraSpeed * deltaTime;
+        camera->move(Camera::RIGHT, deltaTime);
 }
 
 int main() {

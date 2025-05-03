@@ -7,6 +7,12 @@
 
 class Camera {
 public:
+    enum Direction {
+        FORWARD,
+        BACKWARD,
+        LEFT,
+        RIGHT,
+    };
     Camera(Shader &shader, const uint32_t width, const uint32_t height,
            const float fov);
     Camera(Camera &&) = delete;
@@ -15,14 +21,16 @@ public:
     Camera &operator=(const Camera &) = delete;
     ~Camera();
 
-    void move();
+    void move(Direction direction, float deltatime);
     void pan(float yaw, float pitch);
+    void zoom(double fov);
 
     void update();
 
 private:
     Shader &_shader;
 
+    const float _cameraSpeed = 0.5f;
     uint32_t _width;
     uint32_t _height;
     float _fov;
