@@ -301,6 +301,22 @@ int main() {
         glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.5f, 2.0f, -2.5f),
         glm::vec3(1.5f, 0.2f, -1.5f),   glm::vec3(-1.3f, 1.0f, -1.5f)};
 
+    glm::vec3 coral(1.0f, 0.5f, 0.31f);
+    glm::vec3 lightColor(0.33f, 0.42f, 0.18f);
+    glm::vec3 toyColor(1.0f, 0.5f, 0.31f);
+    glm::vec3 result = lightColor * toyColor; // = (0.33f, 0.21f, 0.06f);
+    unsigned int lightVAO;
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+                          (void *)0);
+    glEnableVertexAttribArray(0);
+
+    Shader lightingShader =
+        Shader("./shaders/lighting-vs.glsl", "./shaders/lighting-fs.glsl");
+    lightingShader.use();
+
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
