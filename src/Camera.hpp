@@ -13,8 +13,7 @@ public:
         LEFT,
         RIGHT,
     };
-    Camera(Shader &shader, const uint32_t width, const uint32_t height,
-           const float fov);
+    Camera(const uint32_t width, const uint32_t height, const float fov);
     Camera(Camera &&) = delete;
     Camera(const Camera &) = delete;
     Camera &operator=(Camera &&) = delete;
@@ -27,8 +26,12 @@ public:
 
     void update();
 
+    glm::mat4 _model;
+    glm::mat4 _view;
+    glm::mat4 _projection;
+
 private:
-    Shader &_shader;
+    // Shader &_shader;
 
     const float _cameraSpeed = 0.5f;
     uint32_t _width;
@@ -39,10 +42,6 @@ private:
     glm::vec3 _cameraUp = glm::vec3(0.0, 1.0, 0.0);
     glm::vec3 _globalUp = glm::vec3(0.0, 1.0, 0.0);
     glm::vec3 _cameraDirection;
-
-    glm::mat4 _model;
-    glm::mat4 _view;
-    glm::mat4 _projection;
 };
 
 #endif // _CAMERA_HPP_
