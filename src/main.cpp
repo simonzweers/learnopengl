@@ -329,7 +329,7 @@ int main() {
         lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
         lightingShader.setMat4("view", cam._view);
         lightingShader.setMat4("projection", cam._projection);
-        // shader.use();
+        lightingShader.setVec3("viewPos", cam._cameraPos);
         glBindVertexArray(cubeVAO);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         for (unsigned int i = 0; i < cubesNum; i++) {
