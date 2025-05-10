@@ -162,49 +162,53 @@ int main() {
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
 
+    // clang-format off
     float verticesCube[] = {
-        -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f, //
-        0.5f,  -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f, //
-        0.5f,  0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f, //
-        0.5f,  0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f, //
-        -0.5f, 0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f, //
-        -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f, //
+		// positions          // normals           // texture coords
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,  1.0f, //
-        0.5f,  -0.5f, 0.5f,  0.0f,  0.0f,  1.0f, //
-        0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f, //
-        0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f, //
-        -0.5f, 0.5f,  0.5f,  0.0f,  0.0f,  1.0f, //
-        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,  1.0f, //
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-        -0.5f, 0.5f,  0.5f,  -1.0f, 0.0f,  0.0f, //
-        -0.5f, 0.5f,  -0.5f, -1.0f, 0.0f,  0.0f, //
-        -0.5f, -0.5f, -0.5f, -1.0f, 0.0f,  0.0f, //
-        -0.5f, -0.5f, -0.5f, -1.0f, 0.0f,  0.0f, //
-        -0.5f, -0.5f, 0.5f,  -1.0f, 0.0f,  0.0f, //
-        -0.5f, 0.5f,  0.5f,  -1.0f, 0.0f,  0.0f, //
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, //
-        0.5f,  0.5f,  -0.5f, 1.0f,  0.0f,  0.0f, //
-        0.5f,  -0.5f, -0.5f, 1.0f,  0.0f,  0.0f, //
-        0.5f,  -0.5f, -0.5f, 1.0f,  0.0f,  0.0f, //
-        0.5f,  -0.5f, 0.5f,  1.0f,  0.0f,  0.0f, //
-        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, //
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-        -0.5f, -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f, //
-        0.5f,  -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f, //
-        0.5f,  -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f, //
-        0.5f,  -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f, //
-        -0.5f, -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f, //
-        -0.5f, -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f, //
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,  0.0f, //
-        0.5f,  0.5f,  -0.5f, 0.0f,  1.0f,  0.0f, //
-        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, //
-        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, //
-        -0.5f, 0.5f,  0.5f,  0.0f,  1.0f,  0.0f, //
-        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,  0.0f  //
-    };
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
+	};
+    // clang-format on
+
     unsigned int texture1, texture2;
     texture1 = loadTexture("res/container.jpg");
     texture2 = loadTexture("res/awesomeface.png");
@@ -223,15 +227,23 @@ int main() {
     // Position Attribute
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glVertexAttribPointer(
-        0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0
+        0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0
     );
     glEnableVertexAttribArray(0);
 
+    // Normals
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glVertexAttribPointer(
-        1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float))
+        1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float))
     );
     glEnableVertexAttribArray(1);
+
+    // Normals
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(
+        2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float))
+    );
+    glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
 
@@ -258,7 +270,7 @@ int main() {
     glBindVertexArray(lightVAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glVertexAttribPointer(
-        0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0
+        0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0
     );
     glEnableVertexAttribArray(0);
 
@@ -271,8 +283,11 @@ int main() {
     Camera cam{SCREEN_SIZE_X, SCREEN_SIZE_Y, fov};
     glfwSetWindowUserPointer(window, &cam);
 
+    lightingShader.use();
     lightingShader.setMat4("model", cam._model);
     lightCubeShader.setMat4("model", cam._model);
+
+    lightingShader.setInt("material.diffuse", 1);
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
@@ -295,23 +310,20 @@ int main() {
         lightingShader.setMat4("view", cam._view);
         lightingShader.setMat4("projection", cam._projection);
         lightingShader.setVec3("viewPos", cam._cameraPos);
+        // Material properties
         lightingShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-        lightingShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
         lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-        lightingShader.setFloat("material.shininess", 32.0f);
-        lightColor.x = sin(glfwGetTime() * 2.0f);
-        lightColor.y = sin(glfwGetTime() * 0.7f);
-        lightColor.z = sin(glfwGetTime() * 1.3f);
-        glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
-        glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
-        lightPos.x = sin(glfwGetTime() * 0.5f);
-        lightPos.y = cos(glfwGetTime() * 0.5f);
-        lightingShader.setVec3("light.ambient", ambientColor);
-        lightingShader.setVec3("light.diffuse", diffuseColor);
-        // lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-        // lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+        lightingShader.setFloat("material.shininess", 64.0f);
+        // Light Properties
+        lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
+        lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
         lightingShader.setVec3("light.position", lightPos);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture1);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, texture2);
+
         glBindVertexArray(cubeVAO);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         for (unsigned int i = 0; i < cubesNum; i++) {
