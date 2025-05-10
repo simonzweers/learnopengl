@@ -287,6 +287,11 @@ int main() {
     lightingShader.setMat4("model", cam._model);
     lightCubeShader.setMat4("model", cam._model);
 
+    // Bind and set textures
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texture2);
     lightingShader.setInt("material.diffuse", 1);
 
     while (!glfwWindowShouldClose(window)) {
@@ -319,10 +324,6 @@ int main() {
         lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
         lightingShader.setVec3("light.position", lightPos);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture2);
 
         glBindVertexArray(cubeVAO);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
