@@ -282,6 +282,7 @@ int main() {
         glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.5f, 2.0f, -2.5f),
         glm::vec3(1.5f, 0.2f, -1.5f),   glm::vec3(-1.3f, 1.0f, -1.5f)
     };
+    uint32_t cubesNum = sizeof(cubePositions) / sizeof(cubePositions[0]);
 
     glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
     glm::vec3 coral(1.0f, 0.5f, 0.31f);
@@ -331,8 +332,7 @@ int main() {
         // shader.use();
         glBindVertexArray(cubeVAO);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        for (unsigned int i = 0;
-             i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++) {
+        for (unsigned int i = 0; i < cubesNum; i++) {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
