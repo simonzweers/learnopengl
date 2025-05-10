@@ -123,39 +123,6 @@ int main() {
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
 
-    float vertices[][3] = {
-        {-0.5f, -0.5f, 0.0f}, // bottom left,
-        {0.5f, -0.5f, 0.0f},  // bottom right,
-        {-0.5f, 0.5f, 0.0f},  // top left
-        {0.5f, 0.5f, 0.0f},   // top right
-    };
-
-    float colors[][3] = {
-        {1.0f, 0.0f, 0.0f}, // bottom left,
-        {0.0f, 1.0f, 0.0f}, // bottom right,
-        {0.0f, 0.0f, 1.0f}, // top left
-        {1.0f, 0.0f, 1.0f}, // top right
-    };
-
-    float texCoords[] = {
-        0.0f, 0.0f, // Lower left
-        1.0f, 0.0f, // Lower right
-        0.0f, 1.0f, // Top left
-        1.0f, 1.0f, // Top right
-    };
-
-    float borderColor[] = {1.0f, 1.0f, 0.0f, 1.0f};
-
-    unsigned int indecies[] = {
-        // First triangle
-        0,
-        1,
-        2,
-        // Second triangle
-        1,
-        2,
-        3,
-    };
     float verticesCube[] = {
         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //
         0.5f,  -0.5f, -0.5f, 1.0f, 0.0f, //
