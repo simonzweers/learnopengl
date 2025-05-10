@@ -124,47 +124,47 @@ int main() {
     glfwSetScrollCallback(window, scroll_callback);
 
     float verticesCube[] = {
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //
-        0.5f,  -0.5f, -0.5f, 1.0f, 0.0f, //
-        0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
-        0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
-        -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f, //
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //
+        -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f, //
+        0.5f,  -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f, //
+        0.5f,  0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f, //
+        0.5f,  0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f, //
+        -0.5f, 0.5f,  -0.5f, 0.0f,  0.0f,  -1.0f, //
+        -0.5f, -0.5f, -0.5f, 0.0f,  0.0f,  -1.0f, //
 
-        -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
-        0.5f,  -0.5f, 0.5f,  1.0f, 0.0f, //
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, //
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, //
-        -0.5f, 0.5f,  0.5f,  0.0f, 1.0f, //
-        -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
+        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,  1.0f, //
+        0.5f,  -0.5f, 0.5f,  0.0f,  0.0f,  1.0f, //
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f, //
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f, //
+        -0.5f, 0.5f,  0.5f,  0.0f,  0.0f,  1.0f, //
+        -0.5f, -0.5f, 0.5f,  0.0f,  0.0f,  1.0f, //
 
-        -0.5f, 0.5f,  0.5f,  1.0f, 0.0f, //
-        -0.5f, 0.5f,  -0.5f, 1.0f, 1.0f, //
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
-        -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
-        -0.5f, 0.5f,  0.5f,  1.0f, 0.0f, //
+        -0.5f, 0.5f,  0.5f,  -1.0f, 0.0f,  0.0f, //
+        -0.5f, 0.5f,  -0.5f, -1.0f, 0.0f,  0.0f, //
+        -0.5f, -0.5f, -0.5f, -1.0f, 0.0f,  0.0f, //
+        -0.5f, -0.5f, -0.5f, -1.0f, 0.0f,  0.0f, //
+        -0.5f, -0.5f, 0.5f,  -1.0f, 0.0f,  0.0f, //
+        -0.5f, 0.5f,  0.5f,  -1.0f, 0.0f,  0.0f, //
 
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
-        0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
-        0.5f,  -0.5f, -0.5f, 0.0f, 1.0f, //
-        0.5f,  -0.5f, -0.5f, 0.0f, 1.0f, //
-        0.5f,  -0.5f, 0.5f,  0.0f, 0.0f, //
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, //
+        0.5f,  0.5f,  -0.5f, 1.0f,  0.0f,  0.0f, //
+        0.5f,  -0.5f, -0.5f, 1.0f,  0.0f,  0.0f, //
+        0.5f,  -0.5f, -0.5f, 1.0f,  0.0f,  0.0f, //
+        0.5f,  -0.5f, 0.5f,  1.0f,  0.0f,  0.0f, //
+        0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, //
 
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
-        0.5f,  -0.5f, -0.5f, 1.0f, 1.0f, //
-        0.5f,  -0.5f, 0.5f,  1.0f, 0.0f, //
-        0.5f,  -0.5f, 0.5f,  1.0f, 0.0f, //
-        -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
+        -0.5f, -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f, //
+        0.5f,  -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f, //
+        0.5f,  -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f, //
+        0.5f,  -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f, //
+        -0.5f, -0.5f, 0.5f,  0.0f,  -1.0f, 0.0f, //
+        -0.5f, -0.5f, -0.5f, 0.0f,  -1.0f, 0.0f, //
 
-        -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f, //
-        0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
-        -0.5f, 0.5f,  0.5f,  0.0f, 0.0f, //
-        -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f  //
+        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,  0.0f, //
+        0.5f,  0.5f,  -0.5f, 0.0f,  1.0f,  0.0f, //
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, //
+        0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, //
+        -0.5f, 0.5f,  0.5f,  0.0f,  1.0f,  0.0f, //
+        -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,  0.0f  //
     };
     unsigned int texture1, texture2;
     glGenTextures(1, &texture1);
@@ -226,13 +226,13 @@ int main() {
     // Position Attribute
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glVertexAttribPointer(
-        0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0
+        0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0
     );
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glVertexAttribPointer(
-        1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float))
+        1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float))
     );
     glEnableVertexAttribArray(1);
 
@@ -261,7 +261,7 @@ int main() {
     glBindVertexArray(lightVAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glVertexAttribPointer(
-        0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0
+        0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0
     );
     glEnableVertexAttribArray(0);
 
