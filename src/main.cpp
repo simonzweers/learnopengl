@@ -101,9 +101,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *window = glfwCreateWindow(
-        SCREEN_SIZE_X, SCREEN_SIZE_Y, "LearnOpenGL", NULL, NULL
-    );
+    GLFWwindow *window = glfwCreateWindow(SCREEN_SIZE_X, SCREEN_SIZE_Y, "LearnOpenGL", NULL, NULL);
     if (window == nullptr) {
         std::printf("Failed to create GLFW window\n");
         glfwTerminate();
@@ -204,19 +202,15 @@ int main() {
     glBindTexture(GL_TEXTURE_2D, texture1);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(
-        GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR
-    );
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
 
-    unsigned char *image_data =
-        stbi_load("res/container.jpg", &width, &height, &nrChannels, 0);
+    unsigned char *image_data = stbi_load("res/container.jpg", &width, &height, &nrChannels, 0);
     if (image_data) {
         glTexImage2D(
-            GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
-            GL_UNSIGNED_BYTE, image_data
+            GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data
         );
         glGenerateMipmap(GL_TEXTURE_2D);
     } else {
@@ -228,16 +222,12 @@ int main() {
     glBindTexture(GL_TEXTURE_2D, texture2);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(
-        GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR
-    );
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    image_data =
-        stbi_load("res/awesomeface.png", &width, &height, &nrChannels, 0);
+    image_data = stbi_load("res/awesomeface.png", &width, &height, &nrChannels, 0);
     if (image_data) {
         glTexImage2D(
-            GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA,
-            GL_UNSIGNED_BYTE, image_data
+            GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data
         );
         glGenerateMipmap(GL_TEXTURE_2D);
     } else {
@@ -245,28 +235,22 @@ int main() {
     }
     stbi_image_free(image_data);
 
-    unsigned int VBO, VAO;
-    glGenVertexArrays(1, &VAO);
+    unsigned int VBO, cubeVAO;
+    glGenVertexArrays(1, &cubeVAO);
     glGenBuffers(1, &VBO);
 
-    glBindVertexArray(VAO);
+    glBindVertexArray(cubeVAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(
-        GL_ARRAY_BUFFER, sizeof(verticesCube), verticesCube, GL_STATIC_DRAW
-    );
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesCube), verticesCube, GL_STATIC_DRAW);
 
     // Position Attribute
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(
-        0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0
-    );
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(
-        1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float))
-    );
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
@@ -275,14 +259,13 @@ int main() {
     glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
     std::printf("Max vertex attributes: %d\n", nrAttributes);
 
-    glm::vec3 cubePositions[] = {
-        glm::vec3(0.0f, 0.0f, 0.0f),    glm::vec3(2.0f, 5.0f, -15.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f), glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3(2.4f, -0.4f, -3.5f),  glm::vec3(-1.7f, 3.0f, -7.5f),
-        glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.5f, 2.0f, -2.5f),
-        glm::vec3(1.5f, 0.2f, -1.5f),   glm::vec3(-1.3f, 1.0f, -1.5f)
-    };
+    glm::vec3 cubePositions[] = {glm::vec3(0.0f, 0.0f, 0.0f),    glm::vec3(2.0f, 5.0f, -15.0f),
+                                 glm::vec3(-1.5f, -2.2f, -2.5f), glm::vec3(-3.8f, -2.0f, -12.3f),
+                                 glm::vec3(2.4f, -0.4f, -3.5f),  glm::vec3(-1.7f, 3.0f, -7.5f),
+                                 glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.5f, 2.0f, -2.5f),
+                                 glm::vec3(1.5f, 0.2f, -1.5f),   glm::vec3(-1.3f, 1.0f, -1.5f)};
 
+    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
     glm::vec3 coral(1.0f, 0.5f, 0.31f);
     glm::vec3 lightColor(0.33f, 0.42f, 0.18f);
     glm::vec3 toyColor(1.0f, 0.5f, 0.31f);
@@ -291,21 +274,18 @@ int main() {
     glGenVertexArrays(1, &lightVAO);
     glBindVertexArray(lightVAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(
-        0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0
-    );
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
 
-    Shader lightingShader =
-        Shader("./shaders/lighting-vs.glsl", "./shaders/lighting-fs.glsl");
+    Shader lightingShader = Shader("./shaders/lighting-vs.glsl", "./shaders/lighting-fs.glsl");
 
-    Shader lightCubeShader =
-        Shader("./shaders/light-cube-vs.glsl", "./shaders/light-cube-fs.glsl");
+    Shader lightCubeShader = Shader("./shaders/light-cube-vs.glsl", "./shaders/light-cube-fs.glsl");
 
     Camera cam{SCREEN_SIZE_X, SCREEN_SIZE_Y, fov};
     glfwSetWindowUserPointer(window, &cam);
 
     lightingShader.setMat4("model", cam._model);
+    lightCubeShader.setMat4("model", cam._model);
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
@@ -318,28 +298,36 @@ int main() {
         // Input handling
         processInput(window);
 
+        cam.update();
+
+        // DRAW CUBE
         lightingShader.use();
         lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
         lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-        cam.update();
         lightingShader.setMat4("view", cam._view);
         lightingShader.setMat4("projection", cam._projection);
-
         // shader.use();
-        glBindVertexArray(VAO);
+        glBindVertexArray(cubeVAO);
         // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-        for (unsigned int i = 0; i < 10; i++) {
+        for (unsigned int i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++) {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
-            model = glm::rotate(
-                model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f)
-            );
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             lightingShader.setMat4("model", model);
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
+
+        // DRAW LOIGHT CUBE
+        lightCubeShader.use();
+        lightCubeShader.setMat4("view", cam._view);
+        lightCubeShader.setMat4("projection", cam._projection);
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, lightPos);
+        model = glm::scale(model, glm::vec3(0.2f));
+        lightCubeShader.setMat4("model", model);
+        glBindVertexArray(lightVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         // Check abd call events and swap the buffers
