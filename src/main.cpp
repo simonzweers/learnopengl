@@ -95,6 +95,45 @@ void processInput(GLFWwindow *window) {
         camera->move(Camera::RIGHT, deltaTime);
 }
 
+unsigned int loadTexture(char const *path) {
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrChannels;
+    unsigned char *image_data =
+        stbi_load(path, &width, &height, &nrChannels, 0);
+    if (image_data) {
+        GLenum format;
+        if (nrChannels == 1)
+            format = GL_RED;
+        else if (nrChannels == 3)
+            format = GL_RGB;
+        else if (nrChannels == 4)
+            format = GL_RGBA;
+        else
+            format = GL_RGB;
+
+        glBindTexture(GL_TEXTURE_2D, textureID);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(
+            GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR
+        );
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glTexImage2D(
+            GL_TEXTURE_2D, 0, format, width, height, 0, format,
+            GL_UNSIGNED_BYTE, image_data
+        );
+        glGenerateMipmap(GL_TEXTURE_2D);
+    } else {
+        printf("Failed to load texture: %s\n", path);
+    }
+    stbi_image_free(image_data);
+    return textureID;
+}
+
 int main() {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -167,50 +206,8 @@ int main() {
         -0.5f, 0.5f,  -0.5f, 0.0f,  1.0f,  0.0f  //
     };
     unsigned int texture1, texture2;
-    glGenTextures(1, &texture1);
-    glBindTexture(GL_TEXTURE_2D, texture1);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(
-        GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR
-    );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(true);
-
-    unsigned char *image_data =
-        stbi_load("res/container.jpg", &width, &height, &nrChannels, 0);
-    if (image_data) {
-        glTexImage2D(
-            GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
-            GL_UNSIGNED_BYTE, image_data
-        );
-        glGenerateMipmap(GL_TEXTURE_2D);
-    } else {
-        std::printf("Failed to load Texture");
-    }
-    stbi_image_free(image_data);
-
-    glGenTextures(1, &texture2);
-    glBindTexture(GL_TEXTURE_2D, texture2);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(
-        GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR
-    );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    image_data =
-        stbi_load("res/awesomeface.png", &width, &height, &nrChannels, 0);
-    if (image_data) {
-        glTexImage2D(
-            GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA,
-            GL_UNSIGNED_BYTE, image_data
-        );
-        glGenerateMipmap(GL_TEXTURE_2D);
-    } else {
-        std::printf("Failed to load Texture");
-    }
-    stbi_image_free(image_data);
+    texture1 = loadTexture("res/container.jpg");
+    texture2 = loadTexture("res/awesomeface.png");
 
     unsigned int VBO, cubeVAO;
     glGenVertexArrays(1, &cubeVAO);
