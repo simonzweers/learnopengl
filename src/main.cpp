@@ -209,9 +209,9 @@ int main() {
 	};
     // clang-format on
 
-    unsigned int texture1, texture2;
-    texture1 = loadTexture("res/container.jpg");
-    texture2 = loadTexture("res/awesomeface.png");
+    unsigned int diffuseMap, specularMap;
+    diffuseMap = loadTexture("res/container2.png");
+    specularMap = loadTexture("res/container2_specular.png");
 
     unsigned int VBO, cubeVAO;
     glGenVertexArrays(1, &cubeVAO);
@@ -289,10 +289,11 @@ int main() {
 
     // Bind and set textures
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture1);
+    glBindTexture(GL_TEXTURE_2D, diffuseMap);
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, texture2);
-    lightingShader.setInt("material.diffuse", 1);
+    glBindTexture(GL_TEXTURE_2D, specularMap);
+    lightingShader.setInt("material.diffuse", 0);
+    lightingShader.setInt("material.specular", 1);
 
     while (!glfwWindowShouldClose(window)) {
         float currentFrame = glfwGetTime();
