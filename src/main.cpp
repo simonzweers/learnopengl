@@ -311,9 +311,9 @@ int main() {
 
         // DRAW CUBE
         lightingShader.use();
-        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-        lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-        lightingShader.setVec3("lightPos", lightPos);
+        // lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        // lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        // lightingShader.setVec3("lightPos", lightPos);
         lightingShader.setMat4("view", cam._view);
         lightingShader.setMat4("projection", cam._projection);
         lightingShader.setVec3("viewPos", cam._cameraPos);
@@ -325,7 +325,9 @@ int main() {
         lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
         lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-        lightingShader.setVec3("light.position", lightPos);
+        lightingShader.setVec3("light.position", cam._cameraPos);
+        lightingShader.setVec3("light.direction", cam._cameraFront);
+        lightingShader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
         // lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
         lightingShader.setFloat("light.constant", 1.0f);
         lightingShader.setFloat("light.linear", 0.09f);
