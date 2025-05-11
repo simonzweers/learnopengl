@@ -42,9 +42,10 @@ float lastFrame = 0.0f;
 float lastX = (float)SCREEN_SIZE_X / 2, lastY = (float)SCREEN_SIZE_Y / 2;
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
-    SCREEN_SIZE_X = width;
-    SCREEN_SIZE_Y = height;
-    glViewport(0, 0, SCREEN_SIZE_X, SCREEN_SIZE_Y);
+    printf("framebuffer_size_callback called\n");
+    Camera *camera = static_cast<Camera *>(glfwGetWindowUserPointer(window));
+    camera->updateAspect(width, height);
+    glViewport(0, 0, width, height);
 }
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos) {

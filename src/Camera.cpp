@@ -57,7 +57,11 @@ void Camera::zoom(double yoffset) {
 
 void Camera::update() {
     _view = glm::lookAt(_cameraPos, _cameraPos + _cameraFront, _globalUp);
-    _projection = glm::perspective(
-        glm::radians(_fov), (float)_width / (float)_height, 0.1f, 100.f
-    );
+    _projection = glm::perspective(glm::radians(_fov), _aspect, 0.1f, 100.f);
+}
+
+void Camera::updateAspect(uint32_t width, uint32_t height) {
+    _width = width;
+    _height = height;
+    _aspect = (float)_width / (float)_height;
 }

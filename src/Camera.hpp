@@ -26,11 +26,14 @@ public:
 
     void update();
 
+    void updateAspect(uint32_t width, uint32_t height);
+
     glm::mat4 _model;
     glm::mat4 _view;
     glm::mat4 _projection;
 
     glm::vec3 _cameraPos = glm::vec3(0.0f, 0.0, 3.0f);
+    glm::vec3 _cameraFront = glm::vec3(0.0, 0.0, -1.0);
 
 private:
     // Shader &_shader;
@@ -39,7 +42,7 @@ private:
     uint32_t _width;
     uint32_t _height;
     float _fov;
-    glm::vec3 _cameraFront = glm::vec3(0.0, 0.0, -1.0);
+    float _aspect;
     glm::vec3 _cameraUp = glm::vec3(0.0, 1.0, 0.0);
     glm::vec3 _globalUp = glm::vec3(0.0, 1.0, 0.0);
     glm::vec3 _cameraDirection;
